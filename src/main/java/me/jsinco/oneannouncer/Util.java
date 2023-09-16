@@ -3,8 +3,6 @@ package me.jsinco.oneannouncer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -50,7 +48,7 @@ public class Util {
      */
 
     public static String addPlaceholders(String configSection, String msg) {
-        List<String> placeholders = List.copyOf(OneAnnouncer.plugin().getConfig().getConfigurationSection(configSection).getKeys(false));
+        List<String> placeholders = OneAnnouncer.plugin().getConfig().getConfigurationSection(configSection).getKeys(false).stream().toList();
         for (String placeholder : placeholders) {
             if (msg.contains("$" + placeholder)) {
                 msg = msg.replace("$" + placeholder, OneAnnouncer.plugin().getConfig().getString(configSection + "." + placeholder));
@@ -65,11 +63,15 @@ public class Util {
      * @return Returns a string of text with commands removed and executed
      */
 
-    public static String executeStringCommands(@Nullable Player dispatcher, @NotNull String msg) {
+    public static String executeStringCommands(Player dispatcher, String msg) {
         if (msg.contains("<CMD>")) {
             String command = msg.substring(msg.indexOf("<CMD>") + 5, msg.indexOf("</CMD>"));
             msg = msg.substring(0, msg.indexOf("<CMD>")) + msg.substring(msg.indexOf("</CMD>") + 6);
-            Bukkit.dispatchCommand(Objects.requireNonNullElseGet(dispatcher, Bukkit::getConsoleSender), command);
+            if (dispatcher == null) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            } else {
+                Bukkit.dispatchCommand(dispatcher, command);
+            }
         }
         return msg;
     }
