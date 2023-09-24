@@ -1,5 +1,6 @@
 package me.jsinco.oneannouncer;
 
+import github.scarsz.discordsrv.DiscordSRV;
 import me.jsinco.oneannouncer.commands.Announce;
 import me.jsinco.oneannouncer.commands.Say;
 import me.jsinco.oneannouncer.discord.JDAListeners;
@@ -8,6 +9,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,16 +23,20 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
     public boolean setupJDA() throws InterruptedException {
 
-        String botToken = OneAnnouncer.plugin().getConfig().getString("bot-token");
-        if (botToken == null || botToken.equals("YOUR_BOT_TOKEN")) {
-            this.getLogger().info("Bot token is invalid or not set. Not enabling discord features.");
-            return false;
-        }
+        if (Bukkit.getPluginManager().isPluginEnabled(DiscordSRV.getPlugin()) && getConfig().getBoolean("use-discordsrv-bot")) {
+            jda = DiscordSRV.getPlugin().getJda().awaitReady();
+        } else {
+            String botToken = OneAnnouncer.plugin().getConfig().getString("bot-token");
+            if (botToken == null || botToken.equals("YOUR_BOT_TOKEN")) {
+                this.getLogger().info("Bot token is invalid or not set. Not enabling discord features.");
+                return false;
+            }
 
-        jda = JDABuilder.createDefault(botToken)
-                .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
-                .addEventListeners(new JDAListeners())
-                .build().awaitReady();
+            jda = JDABuilder.createDefault(botToken)
+                    .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
+                    .addEventListeners(new JDAListeners())
+                    .build().awaitReady();
+        }
 
         TextChannel channel = jda.getTextChannelById(getConfig().getString("announce-cmd.default-channel-id"));
         if (channel == null) {
@@ -47,9 +53,6 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         reloadConfig();
-        if (jda != null) {
-            jda.shutdownNow();
-        }
         try {
             if (setupJDA()) {
                 this.getLogger().info("Discord features enabled.");
@@ -85,9 +88,6 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
     @Override
     public void onDisable() {
-        if (jda != null) {
-            jda.shutdownNow();
-        }
     }
 
     public static OneAnnouncer plugin() {

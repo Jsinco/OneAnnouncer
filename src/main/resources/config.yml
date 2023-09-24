@@ -28,7 +28,7 @@ say-cmd:
 # No static placeholders.
 auto-announcer:
   enabled: true
-  interval: 600 # How often should we send a message? (in seconds)
+  interval: 3600 # How often should we send a message? (in seconds)
   placeholders: # Add your own placeholders! All placeholders must be called with $placeholder (ex: $prefix)
     prefix: '<GRADIENT:B2ACFB>&lOne</GRADIENT:85FD9F> &8»&r'
   messages:
@@ -40,6 +40,7 @@ auto-announcer:
 # --- Discord Integration ---
 # Discord integration requires a bot token. You can get one by creating a bot at https://discord.com/developers/applications
 bot-token: "YOUR_BOT_TOKEN"
+use-discordsrv-bot: true # If true, OneAnnouncer will use DiscordSRV's JDA instead of creating its own
 
 # Change which channel to send messages to at command runtime.
 # Usage: <CHANNEL:*channel_id*>
