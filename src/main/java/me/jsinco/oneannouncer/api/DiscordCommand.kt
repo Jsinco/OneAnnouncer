@@ -8,12 +8,12 @@ interface DiscordCommand {
     /**
      * The name of the command
      */
-    fun name(): String?
+    fun name(): String
 
     /**
      * The description of the command
      */
-    fun description(): String?
+    fun description(): String
 
     /**
      * Execution code of the command
@@ -24,5 +24,5 @@ interface DiscordCommand {
     /**
      * The options of the command
      */
-    fun options(): List<CommandOption?>?
+    fun options(): List<CommandOption?>
 }

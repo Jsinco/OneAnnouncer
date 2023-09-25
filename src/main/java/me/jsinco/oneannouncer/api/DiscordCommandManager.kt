@@ -28,7 +28,7 @@ object DiscordCommandManager : ListenerAdapter(){
             val cmd: CommandCreateAction = guild.upsertCommand(command.name()!!, command.description()!!)
             if (command.options() != null && command.options()!!.isNotEmpty()) {
                 for (option in command.options()!!) {
-                    cmd.addOption(option!!.optioneType, option.name, option.description, option.required)
+                    cmd.addOption(option!!.optionType, option.name, option.description, option.required)
                 }
             }
 
