@@ -40,7 +40,6 @@ auto-announcer:
 # --- Discord Integration ---
 # Discord integration requires a bot token. You can get one by creating a bot at https://discord.com/developers/applications
 bot-token: "YOUR_BOT_TOKEN"
-use-discordsrv-bot: true # If true, OneAnnouncer will use DiscordSRV's JDA instead of creating its own
 
 # Change which channel to send messages to at command runtime.
 # Usage: <CHANNEL:*channel_id*>
@@ -60,6 +59,7 @@ announce-cmd:
 # Only members with permission to use 'Mention @everyone, @here, and all roles' will have their messages relayed.
 relay:
   listen-for: ['@everyone', '@here']
+  ignore-guilds: [] # Guilds to ignore relaying messages from
   default-prefix: '<GRADIENT:B2ACFB>&lOne</GRADIENT:85FD9F> &8»&r '
   max-relay-length: 10 # If a discord announcement has more than this number of words, it will be relayed with the replacement message instead
   replacement-message: 'A discord announcement was sent. Please check the discord server for more information.'

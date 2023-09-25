@@ -16,10 +16,11 @@ import java.util.Map;
 
 public class JDAListeners extends ListenerAdapter {
 
-    @Override
+    @Override // Relay
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         if (event.getMember() == null) return;
         else if (!event.getMember().hasPermission(Permission.MESSAGE_MENTION_EVERYONE)) return;
+        else if (OneAnnouncer.plugin().getConfig().getStringList("relay.ignore-guilds").contains(event.getGuild().getId())) return;
 
         List<String> listenFor = OneAnnouncer.plugin().getConfig().getStringList("relay.listen-for");
         String message = event.getMessage().getContentRaw();
