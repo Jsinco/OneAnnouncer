@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Util {
 
@@ -47,7 +48,7 @@ public class Util {
      */
 
     public static String addPlaceholders(String configSection, String msg) {
-        List<String> placeholders = OneAnnouncer.plugin().getConfig().getConfigurationSection(configSection).getKeys(false).stream().toList();
+        Set<String> placeholders = OneAnnouncer.plugin().getConfig().getConfigurationSection(configSection).getKeys(false);
         for (String placeholder : placeholders) {
             if (msg.contains("$" + placeholder)) {
                 msg = msg.replace("$" + placeholder, OneAnnouncer.plugin().getConfig().getString(configSection + "." + placeholder));
