@@ -4,11 +4,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.jetbrains.annotations.NotNull
 
 interface DiscordCommand {
-
+    // TODO: Add permissions
     /**
      * The name of the command
      */
-    fun name(): String
+    @NotNull fun name(): String
 
     /**
      * The description of the command
@@ -24,5 +24,5 @@ interface DiscordCommand {
     /**
      * The options of the command
      */
-    fun options(): List<CommandOption?>
+    fun options(): List<CommandOption>?
 }

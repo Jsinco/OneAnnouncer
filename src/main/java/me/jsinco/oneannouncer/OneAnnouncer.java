@@ -32,28 +32,11 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
         jda = JDABuilder.createDefault(botToken)
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
-                .addEventListeners(new JDAListeners())
-                .addEventListeners(DiscordCommandManager.INSTANCE)
-                .build().awaitReady();
-        TextChannel channel;
-        String stringChannel = getConfig().getString("announce-cmd.default-channel-id");
+                .setAutoReconnect(true)
+                .build();
+        //TextChannel channel;
+        //String stringChannel = getConfig().getString("announce-cmd.default-channel-id");
 
-        if (stringChannel.equals("CHANNEL_ID")) {
-            this.getLogger().warning("Default channel is invalid. Cannot invoke /announce command.");
-            return true;
-        }
-
-
-        try {
-            for (Guild guild : jda.getGuilds()) {
-                guild.upsertCommand("announce", "Announce a message to Minecraft")
-                        .addOption(OptionType.STRING, "msg", "The message to announce", true)
-                        .queue();
-            }
-        } catch (Exception e) {
-            this.getLogger().warning("Debug");
-            e.printStackTrace();
-        }
         return true;
     }
 
@@ -61,11 +44,7 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         reloadConfig();
         try {
-            if (setupJDA()) {
-                this.getLogger().info("Discord features enabled.");
-            } else {
-                this.getLogger().info("Discord features not enabled.");
-            }
+            setupJDA();
             sender.sendMessage("Reloaded config.");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -81,9 +60,14 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
         try {
             setupJDA();
+            jda.awaitReady();
+            jda.addEventListener(new DiscordCommandManager());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+
+
         new Say();
         new AutoAnnouncer();
         new Announce();
@@ -94,6 +78,7 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
     @Override
     public void onDisable() {
+        jda.shutdownNow();
     }
 
     public static OneAnnouncer plugin() {
