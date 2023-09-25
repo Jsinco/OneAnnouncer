@@ -5,6 +5,7 @@ import me.jsinco.oneannouncer.commands.Say;
 import me.jsinco.oneannouncer.discord.JDAListeners;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -21,6 +22,7 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
     public boolean setupJDA() throws InterruptedException {
 
+
         String botToken = OneAnnouncer.plugin().getConfig().getString("bot-token");
         if (botToken == null || botToken.equals("YOUR_BOT_TOKEN")) {
             this.getLogger().info("Bot token is invalid or not set. Not enabling discord features.");
@@ -31,31 +33,38 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(new JDAListeners())
                 .build().awaitReady();
+        TextChannel channel;
+        String stringChannel = getConfig().getString("announce-cmd.default-channel-id");
 
-        TextChannel channel = jda.getTextChannelById(getConfig().getString("announce-cmd.default-channel-id"));
-        if (channel == null) {
+        if (stringChannel.equals("CHANNEL_ID")) {
             this.getLogger().warning("Default channel is invalid. Cannot invoke /announce command.");
             return true;
         }
 
-        channel.getGuild().upsertCommand("announce", "Announce a message to Minecraft")
-                .addOption(OptionType.STRING, "msg", "The message to announce", true)
-                .queue();
+
+        try {
+            for (Guild guild : jda.getGuilds()) {
+                guild.upsertCommand("announce", "Announce a message to Minecraft")
+                        .addOption(OptionType.STRING, "msg", "The message to announce", true)
+                        .queue();
+            }
+        } catch (Exception e) {
+            this.getLogger().warning("Debug");
+            e.printStackTrace();
+        }
         return true;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         reloadConfig();
-        if (jda != null) {
-            jda.shutdownNow();
-        }
         try {
             if (setupJDA()) {
                 this.getLogger().info("Discord features enabled.");
             } else {
                 this.getLogger().info("Discord features not enabled.");
             }
+            sender.sendMessage("Reloaded config.");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -69,11 +78,7 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
         instance = this;
 
         try {
-            if (setupJDA()) {
-                this.getLogger().info("Discord features enabled.");
-            } else {
-                this.getLogger().info("Discord features not enabled.");
-            }
+            setupJDA();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -81,13 +86,12 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
         new AutoAnnouncer();
         new Announce();
         getCommand("onereload").setExecutor(this);
+
+
     }
 
     @Override
     public void onDisable() {
-        if (jda != null) {
-            jda.shutdownNow();
-        }
     }
 
     public static OneAnnouncer plugin() {

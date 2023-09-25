@@ -28,7 +28,7 @@ say-cmd:
 # No static placeholders.
 auto-announcer:
   enabled: true
-  interval: 600 # How often should we send a message? (in seconds)
+  interval: 3600 # How often should we send a message? (in seconds)
   placeholders: # Add your own placeholders! All placeholders must be called with $placeholder (ex: $prefix)
     prefix: '<GRADIENT:B2ACFB>&lOne</GRADIENT:85FD9F> &8»&r'
   messages:
@@ -59,6 +59,7 @@ announce-cmd:
 # Only members with permission to use 'Mention @everyone, @here, and all roles' will have their messages relayed.
 relay:
   listen-for: ['@everyone', '@here']
+  ignore-guilds: [] # Guilds to ignore relaying messages from
   default-prefix: '<GRADIENT:B2ACFB>&lOne</GRADIENT:85FD9F> &8»&r '
   max-relay-length: 10 # If a discord announcement has more than this number of words, it will be relayed with the replacement message instead
   replacement-message: 'A discord announcement was sent. Please check the discord server for more information.'
