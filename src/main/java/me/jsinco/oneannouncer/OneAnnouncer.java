@@ -1,5 +1,6 @@
 package me.jsinco.oneannouncer;
 
+import me.jsinco.oneannouncer.api.DiscordCommandManager;
 import me.jsinco.oneannouncer.commands.Announce;
 import me.jsinco.oneannouncer.commands.Say;
 import me.jsinco.oneannouncer.discord.JDAListeners;
@@ -32,6 +33,7 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
         jda = JDABuilder.createDefault(botToken)
                 .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(new JDAListeners())
+                .addEventListeners(DiscordCommandManager.INSTANCE)
                 .build().awaitReady();
         TextChannel channel;
         String stringChannel = getConfig().getString("announce-cmd.default-channel-id");
