@@ -12,10 +12,10 @@ public class JDAMethods {
         });
     }
 
-    public static void sendMessageDiscordChannel(String channelID, String msg) {
+    public static void sendMessageDiscordChannel(String channelID, String msg, boolean silent) {
         TextChannel channel = OneAnnouncer.getJDA().getTextChannelById(channelID);
         if (channel != null) {
-            channel.sendMessage(msg).queue();
+            channel.sendMessage(msg).setSuppressedNotifications(silent).queue();
         }
     }
 }

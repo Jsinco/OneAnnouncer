@@ -48,7 +48,7 @@ public class Announce implements CommandExecutor  {
         if (channel == null) {
             sender.sendMessage("Channel is invalid. Check config's default-channel-id or specify a real channel with <CHANNEL:channel-id> in your message.");
         } else {
-            JDAMethods.sendMessageDiscordChannel(channel, msg);
+            JDAMethods.sendMessageDiscordChannel(channel, msg, false);
             sender.sendMessage(IridiumColorAPI.process(Util.colorcode(OneAnnouncer.plugin().getConfig().getString("announce-cmd.default-prefix") + "Announced message")));
         }
 

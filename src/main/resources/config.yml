@@ -66,3 +66,6 @@ relay:
   max-relay-length: 10 # If a discord announcement has more than this number of words, it will be relayed with the replacement message instead
   replacement-message: 'A discord announcement was sent. Please check the discord server for more information.'
 
+debug:
+  verbose: false # Enable verbose logging from discord
+  verbose-channel: "CHANNEL_ID" # The channel to send verbose logging to

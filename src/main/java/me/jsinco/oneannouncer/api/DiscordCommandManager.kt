@@ -5,6 +5,7 @@ import me.jsinco.oneannouncer.Util
 import me.jsinco.oneannouncer.commands.discord.AnnounceCommand
 import me.jsinco.oneannouncer.commands.discord.ExecuteCommand
 import me.jsinco.oneannouncer.commands.discord.UUIDCommand
+import me.jsinco.oneannouncer.discord.JDAMethods
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
@@ -67,16 +68,16 @@ class DiscordCommandManager : ListenerAdapter(){
 
 
                     if (!registered) {
-                        registeredCommands.left += 1
+                        registeredCommands.left++
                         registered = true
                     }
                 }
 
-                plugin.server.consoleSender.sendMessage(Util.colorcode("${plugin.config.getString("prefix")} &aRegistered command: &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| Total Guilds: &d${registeredCommands.right}"))
+                log("&aRegistered command: &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| Total Guilds: &d${registeredCommands.right}")
             }, 100L)
 
             registeredCommands.right = jda.guilds.size
-            plugin.server.consoleSender.sendMessage(Util.colorcode("${plugin.config.getString("prefix")} &aGot a command for: &d\"${command.name()}\"&a, registering..."))
+            log("&aGot a &dglobal&a command for: &d\"${command.name()}\"&a, registering...")
         }
 
 
@@ -98,16 +99,28 @@ class DiscordCommandManager : ListenerAdapter(){
                 }
 
                 cmd.queue()
-                plugin.server.consoleSender.sendMessage(Util.colorcode("${plugin.config.getString("prefix")} &aRegistered &dglobal&a command &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| &dGlobal Command"))
-            }, 100L)
 
-            plugin.server.consoleSender.sendMessage(Util.colorcode("${plugin.config.getString("prefix")} &aGot a &dglobal&a command for: &d\"${command.name()}\"&a, registering..."))
+                log("&aRegistered &dglobal&a command &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| &dGlobal Command")
+            }, 100L)
+            registeredCommands.left++
+            log("&aGot a &dglobal&a command for: &d\"${command.name()}\"&a, registering...")
         }
 
 
         @JvmStatic
         fun getCommand(commandName: String): DiscordCommand? {
             return commands[commandName]
+        }
+
+        private fun log(message: String) {
+            plugin.server.consoleSender.sendMessage(Util.colorcode("${plugin.config.getString("prefix")} $message"))
+            try {
+                if (plugin.config.getBoolean("debug.verbose")) {
+                    JDAMethods.sendMessageDiscordChannel(plugin.config.getString("debug.verbose-channel"), ChatColor.stripColor(Util.colorcode("${plugin.config.getString("prefix")} $message")), true)
+                }
+            } catch (e: Exception) {
+                plugin.logger.warning("Failed to send verbose message to discord channel: ${e.message}")
+            }
         }
     }
 }
