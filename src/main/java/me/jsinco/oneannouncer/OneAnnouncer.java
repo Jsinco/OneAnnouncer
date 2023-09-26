@@ -1,6 +1,7 @@
 package me.jsinco.oneannouncer;
 
 import me.jsinco.oneannouncer.api.DiscordCommandManager;
+import me.jsinco.oneannouncer.api.events.OneAnnouncerStartEvent;
 import me.jsinco.oneannouncer.commands.Announce;
 import me.jsinco.oneannouncer.commands.Say;
 import me.jsinco.oneannouncer.discord.JDAListeners;
@@ -73,7 +74,8 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
         new Announce();
         getCommand("onereload").setExecutor(this);
 
-
+        OneAnnouncerStartEvent startEvent = new OneAnnouncerStartEvent();
+        getServer().getPluginManager().callEvent(startEvent);
     }
 
     @Override

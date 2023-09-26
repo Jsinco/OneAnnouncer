@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.requests.restaction.CommandCreateAction
 import net.dv8tion.jda.internal.utils.tuple.MutablePair
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
+import org.bukkit.Color
 
 class DiscordCommandManager : ListenerAdapter(){
 
@@ -37,7 +39,7 @@ class DiscordCommandManager : ListenerAdapter(){
             commands[command.name()] = command
 
             val jda = OneAnnouncer.getJDA()
-            Bukkit.getScheduler().runTaskLater(plugin, Runnable {
+            Bukkit.getScheduler().runTaskLater(plugin, Runnable { // Delay is necessary for server start up
                 var registered = false
                 for (guild in jda.guilds) {
                     val cmd: CommandCreateAction = guild.upsertCommand(command.name(), command.description())
@@ -55,10 +57,11 @@ class DiscordCommandManager : ListenerAdapter(){
                         registered = true
                     }
                 }
-                plugin.logger.info("Registered command \"${command.name()}\" | Total Commands: ${registeredCommands.left} | Total Guilds: ${registeredCommands.right}")
+
+                plugin.logger.info("${ChatColor.GREEN}Registered command \"${command.name()}\" | Total Commands: ${registeredCommands.left} | Total Guilds: ${registeredCommands.right}")
             }, 100L)
 
-
+            plugin.logger.info("${ChatColor.GREEN}Got a command for: ${command.name()}, registering...")
         }
 
         @JvmStatic
