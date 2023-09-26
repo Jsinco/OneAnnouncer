@@ -30,7 +30,7 @@ class DiscordCommandManager : ListenerAdapter(){
         val command = commands[event.name] ?: return
 
         if (command.permission() != null && !event.member!!.hasPermission(command.permission()!!)) {
-            event.reply("You do not have permission to use this command! Permission: ${command.permission()!!.name}").queue()
+            event.reply("You do not have permission to use this command! Permission: ${command.permission()!!.name}").setEphemeral(true).queue()
             return
         }
         command.execute(event)
@@ -49,8 +49,8 @@ class DiscordCommandManager : ListenerAdapter(){
         @JvmStatic
         fun registerCommand(command: DiscordCommand) {
             if (commands.containsKey(command.name())) {
-                plugin.logger.warning("Command \"${command.name()}\" already exists!")
-                return
+                log("&cCommand &d\"${command.name()}\" &calready exists!")
+                log("&cRe-registering command &d\"${command.name()}\"")
             }
             commands[command.name()] = command
 
@@ -73,19 +73,19 @@ class DiscordCommandManager : ListenerAdapter(){
                     }
                 }
 
-                log("&aRegistered command: &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| Total Guilds: &d${registeredCommands.right}")
+                log("&aRegistered command: &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| Total Guilds: &d${registeredCommands.right} &a(${command.plugin()?.name})")
             }, 100L)
 
             registeredCommands.right = jda.guilds.size
-            log("&aGot a &dglobal&a command for: &d\"${command.name()}\"&a, registering...")
+            log("&aGot a &dguild&a command for: &d\"${command.name()}\"&a, registering... &a(${command.plugin()?.name})")
         }
 
 
         @JvmStatic
         fun registerGlobalCommand(command: DiscordCommand) {
             if (commands.containsKey(command.name())) {
-                plugin.logger.warning("Command \"${command.name()}\" already exists!")
-                return
+                log("&cCommand &d\"${command.name()}\" &calready exists!")
+                log("&cRe-registering command &d\"${command.name()}\"")
             }
             commands[command.name()] = command
 
@@ -100,10 +100,10 @@ class DiscordCommandManager : ListenerAdapter(){
 
                 cmd.queue()
 
-                log("&aRegistered &dglobal&a command &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| &dGlobal Command")
+                log("&aRegistered &dglobal&a command &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| &dGlobal Command &a(${command.plugin()?.name})")
             }, 100L)
             registeredCommands.left++
-            log("&aGot a &dglobal&a command for: &d\"${command.name()}\"&a, registering...")
+            log("&aGot a &dglobal&a command for: &d\"${command.name()}\"&a, registering... (${command.plugin()?.name})")
         }
 
 

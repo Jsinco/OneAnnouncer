@@ -2,7 +2,9 @@ package me.jsinco.oneannouncer.api
 
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
+import org.bukkit.plugin.Plugin
 import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 
 interface DiscordCommand {
     /**
@@ -30,4 +32,9 @@ interface DiscordCommand {
      * The permission of the command, if any
      */
     fun permission(): Permission?
+
+    /**
+     * The plugin that registered the command
+     */
+    @Nullable fun plugin(): Plugin?
 }

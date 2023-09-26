@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import org.bukkit.Bukkit
+import org.bukkit.plugin.Plugin
 
 class ExecuteCommand : DiscordCommand {
     override fun name(): String {
@@ -33,6 +34,10 @@ class ExecuteCommand : DiscordCommand {
     }
 
     override fun permission(): Permission {
-        return Permission.ADMINISTRATOR
+        return Permission.MANAGE_SERVER
+    }
+
+    override fun plugin(): Plugin? {
+        return OneAnnouncer.plugin()
     }
 }
