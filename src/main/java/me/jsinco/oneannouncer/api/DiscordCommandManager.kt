@@ -36,6 +36,10 @@ class DiscordCommandManager : ListenerAdapter(){
          */
         @JvmStatic
         fun registerCommand(command: DiscordCommand) {
+            if (commands.containsKey(command.name())) {
+                plugin.logger.warning("Command \"${command.name()}\" already exists!")
+                return
+            }
             commands[command.name()] = command
 
             val jda = OneAnnouncer.getJDA()

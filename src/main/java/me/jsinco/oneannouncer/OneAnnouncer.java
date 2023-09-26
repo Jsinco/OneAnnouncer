@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -74,8 +75,11 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
         new Announce();
         getCommand("onereload").setExecutor(this);
 
-        OneAnnouncerStartEvent startEvent = new OneAnnouncerStartEvent();
-        getServer().getPluginManager().callEvent(startEvent);
+        OneAnnouncerStartEvent event = new OneAnnouncerStartEvent();
+        getServer().getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
     }
 
     @Override

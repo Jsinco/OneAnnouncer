@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public class OneAnnouncerStartEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
+    private boolean isCancelled;
 
     @Override
     public @NotNull HandlerList getHandlers() {
@@ -18,6 +19,14 @@ public class OneAnnouncerStartEvent extends Event {
     }
 
     public OneAnnouncerStartEvent() {
-        super(true);
+        isCancelled = false;
+    }
+
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
     }
 }
