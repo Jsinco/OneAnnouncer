@@ -3,6 +3,7 @@ package me.jsinco.oneannouncer.commands.discord
 import me.jsinco.oneannouncer.OneAnnouncer
 import me.jsinco.oneannouncer.api.CommandOption
 import me.jsinco.oneannouncer.api.DiscordCommand
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import org.bukkit.Bukkit
@@ -29,5 +30,9 @@ class ExecuteCommand : DiscordCommand {
     override fun options(): List<CommandOption>? {
         val option = CommandOption(OptionType.STRING,"command", "The command to execute", true)
         return listOf(option)
+    }
+
+    override fun permission(): Permission {
+        return Permission.ADMINISTRATOR
     }
 }

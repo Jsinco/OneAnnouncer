@@ -4,14 +4,9 @@ import me.jsinco.oneannouncer.api.DiscordCommandManager;
 import me.jsinco.oneannouncer.api.events.OneAnnouncerStartEvent;
 import me.jsinco.oneannouncer.commands.Announce;
 import me.jsinco.oneannouncer.commands.Say;
-import me.jsinco.oneannouncer.discord.JDAListeners;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -77,9 +72,6 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
         OneAnnouncerStartEvent event = new OneAnnouncerStartEvent();
         getServer().getPluginManager().callEvent(event);
-        if (event.isCancelled()) {
-            Bukkit.getPluginManager().disablePlugin(this);
-        }
     }
 
     @Override

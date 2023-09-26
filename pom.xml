@@ -125,12 +125,12 @@
             <url>https://nexus.iridiumdevelopment.net/repository/maven-releases/</url>
         </repository>
         <repository>
-            <id>Scarsz-Nexus</id>
-            <url>https://nexus.scarsz.me/content/groups/public/</url>
-        </repository>
-        <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>Scarsz-Nexus</id>
+            <url>https://nexus.scarsz.me/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -180,6 +180,11 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.discordsrv</groupId>
+            <artifactId>discordsrv</artifactId>
+            <version>1.26.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

@@ -5,6 +5,7 @@ import me.jsinco.oneannouncer.OneAnnouncer
 import me.jsinco.oneannouncer.Util
 import me.jsinco.oneannouncer.api.CommandOption
 import me.jsinco.oneannouncer.api.DiscordCommand
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import org.bukkit.Bukkit
@@ -45,5 +46,9 @@ class AnnounceCommand : DiscordCommand {
         val option = CommandOption(OptionType.STRING, "msg", "The message to send", true)
         val option2 = CommandOption(OptionType.STRING, "prefix", "The prefix to use", false)
         return listOf(option, option2)
+    }
+
+    override fun permission(): Permission? {
+        return null
     }
 }

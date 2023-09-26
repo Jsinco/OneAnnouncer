@@ -2,6 +2,8 @@
 # OneAnnouncer Configuration #
 ##############################
 
+prefix: '&#b2acfb&lO&#9cd5cd&ln&#85fd9f&le &8»&r'
+
 # All configuration sections that have a 'default-prefix' will allow you to change the prefix when running the command.
 # Usage: <P>*String*</P>
 # Example: /say <P>MyNewPrefix >></P>

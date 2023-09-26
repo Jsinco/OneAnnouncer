@@ -1,10 +1,10 @@
 package me.jsinco.oneannouncer.api
 
+import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import org.jetbrains.annotations.NotNull
 
 interface DiscordCommand {
-    // TODO: Add permissions
     /**
      * The name of the command
      */
@@ -25,4 +25,9 @@ interface DiscordCommand {
      * The options of the command
      */
     fun options(): List<CommandOption>?
+
+    /**
+     * The permission of the command, if any
+     */
+    fun permission(): Permission?
 }
