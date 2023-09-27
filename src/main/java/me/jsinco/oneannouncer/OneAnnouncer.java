@@ -4,6 +4,7 @@ import me.jsinco.oneannouncer.api.DiscordCommandManager;
 import me.jsinco.oneannouncer.api.events.OneAnnouncerStartEvent;
 import me.jsinco.oneannouncer.commands.Announce;
 import me.jsinco.oneannouncer.commands.Say;
+import me.jsinco.oneannouncer.discord.JDAMethods;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;

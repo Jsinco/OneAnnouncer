@@ -53,6 +53,7 @@ class DiscordCommandManager : ListenerAdapter(){
                 log("&cRe-registering command &d\"${command.name()}\"")
             }
             commands[command.name()] = command
+            val pluginName = command.plugin()?.name ?: "Unknown Plugin"
 
             Bukkit.getScheduler().runTaskLater(plugin, Runnable { // Delay is necessary for server start up
                 var registered = false
@@ -73,11 +74,11 @@ class DiscordCommandManager : ListenerAdapter(){
                     }
                 }
 
-                log("&aRegistered command: &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| Total Guilds: &d${registeredCommands.right} &a(${command.plugin()?.name})")
+                log("&aRegistered command: &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| Total Guilds: &d${registeredCommands.right} &a(&d$pluginName&a)")
             }, 100L)
 
             registeredCommands.right = jda.guilds.size
-            log("&aGot a &dguild&a command for: &d\"${command.name()}\"&a, registering... &a(${command.plugin()?.name})")
+            log("&aGot a &dguild&a command from &d$pluginName &afor: &d\"${command.name()}\"&a, registering...")
         }
 
 
@@ -88,7 +89,7 @@ class DiscordCommandManager : ListenerAdapter(){
                 log("&cRe-registering command &d\"${command.name()}\"")
             }
             commands[command.name()] = command
-
+            val pluginName = command.plugin()?.name ?: "Unknown Plugin"
 
             Bukkit.getScheduler().runTaskLater(plugin, Runnable { // Delay is necessary for server start up
                 val cmd: CommandCreateAction = jda.upsertCommand(command.name(), command.description())
@@ -100,10 +101,10 @@ class DiscordCommandManager : ListenerAdapter(){
 
                 cmd.queue()
 
-                log("&aRegistered &dglobal&a command &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| &dGlobal Command &a(${command.plugin()?.name})")
+                log("&aRegistered &dglobal&a command &d\"${command.name()}\" &a| Total Commands: &d${registeredCommands.left} &a| &dGlobal Command &a(&d$pluginName&a)")
             }, 100L)
             registeredCommands.left++
-            log("&aGot a &dglobal&a command for: &d\"${command.name()}\"&a, registering... (${command.plugin()?.name})")
+            log("&aGot a &dglobal&a command from &d$pluginName &afor: &d\"${command.name()}\"&a, registering...")
         }
 
 
@@ -116,7 +117,7 @@ class DiscordCommandManager : ListenerAdapter(){
             plugin.server.consoleSender.sendMessage(Util.colorcode("${plugin.config.getString("prefix")} $message"))
             try {
                 if (plugin.config.getBoolean("debug.verbose")) {
-                    JDAMethods.sendMessageDiscordChannel(plugin.config.getString("debug.verbose-channel"), ChatColor.stripColor(Util.colorcode("${plugin.config.getString("prefix")} $message")), true)
+                    JDAMethods.sendMessageDiscordChannel(plugin.config.getString("debug.verbose-channel"), ChatColor.stripColor(Util.colorcode(message)), true)
                 }
             } catch (e: Exception) {
                 plugin.logger.warning("Failed to send verbose message to discord channel: ${e.message}")
