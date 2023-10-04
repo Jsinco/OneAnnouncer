@@ -65,6 +65,9 @@ relay:
   default-prefix: '<GRADIENT:B2ACFB>&lOne</GRADIENT:85FD9F> &8»&r '
   max-relay-length: 10 # If a discord announcement has more than this number of words, it will be relayed with the replacement message instead
   replacement-message: 'A discord announcement was sent. Please check the discord server for more information.'
+  relay-broadcasts:
+    channel-id: "CHANNEL_ID" # The channel to send relayed messages to
+    enabled: true
 
 debug:
   verbose: false # Enable verbose logging from discord
