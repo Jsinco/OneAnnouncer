@@ -8,6 +8,6 @@ class BukkitEvents : Listener {
 
     @EventHandler
     fun onBroadCast(event: BroadcastMessageEvent) {
-
+        //if ()
     }
 }
