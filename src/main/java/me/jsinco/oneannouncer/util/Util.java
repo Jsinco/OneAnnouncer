@@ -1,5 +1,6 @@
-package me.jsinco.oneannouncer;
+package me.jsinco.oneannouncer.util;
 
+import me.jsinco.oneannouncer.OneAnnouncer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

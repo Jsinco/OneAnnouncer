@@ -1,8 +1,8 @@
-package me.jsinco.oneannouncer.commands;
+package me.jsinco.oneannouncer.commands.bukkit;
 
 import com.iridium.iridiumcolorapi.IridiumColorAPI;
 import me.jsinco.oneannouncer.OneAnnouncer;
-import me.jsinco.oneannouncer.Util;
+import me.jsinco.oneannouncer.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;

@@ -2,10 +2,9 @@ package me.jsinco.oneannouncer;
 
 import me.jsinco.oneannouncer.api.DiscordCommandManager;
 import me.jsinco.oneannouncer.api.events.OneAnnouncerStartEvent;
-import me.jsinco.oneannouncer.commands.Announce;
-import me.jsinco.oneannouncer.commands.Say;
-import me.jsinco.oneannouncer.discord.JDAMethods;
-import me.jsinco.oneannouncer.listeners.BukkitEvents;
+import me.jsinco.oneannouncer.commands.CommandMapper;
+import me.jsinco.oneannouncer.commands.bukkit.Announce;
+import me.jsinco.oneannouncer.commands.bukkit.Say;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -69,8 +68,7 @@ public final class OneAnnouncer extends JavaPlugin implements CommandExecutor {
 
         new Say();
         new AutoAnnouncer();
-        new Announce();
-        getServer().getPluginManager().registerEvents(new BukkitEvents(this), this);
+        CommandMapper.registerBukkitCommand("announce", new Announce(this));
         getCommand("onereload").setExecutor(this);
 
         OneAnnouncerStartEvent event = new OneAnnouncerStartEvent();

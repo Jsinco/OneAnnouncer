@@ -1,20 +1,18 @@
 package me.jsinco.oneannouncer.api
 
 import me.jsinco.oneannouncer.OneAnnouncer
-import me.jsinco.oneannouncer.Util
+import me.jsinco.oneannouncer.util.Util
 import me.jsinco.oneannouncer.commands.discord.AnnounceCommand
 import me.jsinco.oneannouncer.commands.discord.ExecuteCommand
 import me.jsinco.oneannouncer.commands.discord.UUIDCommand
 import me.jsinco.oneannouncer.discord.JDAMethods
 import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.requests.restaction.CommandCreateAction
 import net.dv8tion.jda.internal.utils.tuple.MutablePair
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
-import org.bukkit.Color
 
 class DiscordCommandManager : ListenerAdapter(){
 
@@ -117,7 +115,8 @@ class DiscordCommandManager : ListenerAdapter(){
             plugin.server.consoleSender.sendMessage(Util.colorcode("${plugin.config.getString("prefix")} $message"))
             try {
                 if (plugin.config.getBoolean("debug.verbose")) {
-                    JDAMethods.sendMessageDiscordChannel(plugin.config.getString("debug.verbose-channel"), ChatColor.stripColor(Util.colorcode(message)), true)
+                    JDAMethods.sendMessageDiscordChannel(plugin.config.getString("debug.verbose-channel"), ChatColor.stripColor(
+                        Util.colorcode(message)), true)
                 }
             } catch (e: Exception) {
                 plugin.logger.warning("Failed to send verbose message to discord channel: ${e.message}")
